@@ -1,0 +1,7 @@
+{
+    "auth_bearer": "Bearer eyJ....", 
+    "media-user-token": "......",
+    "synced_lyrics": true,
+    "plain_lyrics": true,
+    "lyric_file_path":"downloads/{artist} - {album} [{year}]/{trackNo}. {title}"
+}
