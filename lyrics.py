@@ -1,5 +1,6 @@
 import argparse
 import requests
+from sanitize_filename import sanitize
 import bs4
 import json
 import re
@@ -47,9 +48,9 @@ class Lyrics:
         metadata = self.session.get(f"https://api.music.apple.com/v1/catalog/{region}/albums/{albumid}").json()
         metadata = metadata['data'][0]
         
-        album = metadata['attributes']['name']
+        album = sanitize(metadata['attributes']['name'])
         year = metadata['attributes']['releaseDate'][0:4]
-        artist = metadata['attributes']['artistName']
+        artist = sanitize(metadata['attributes']['artistName'])
 
         for track in metadata['relationships']['tracks']['data']:
             self.getTrackLyric(track['id'], region, album, artist, year)
@@ -61,7 +62,6 @@ class Lyrics:
         soup =  bs4.BeautifulSoup(result['data'][0]['attributes']['ttml'], 'lxml')
         metadata = self.session.get(f"https://api.music.apple.com/v1/catalog/{region}/songs/{trackID}").json()
         metadata = metadata['data'][0]
-        
 
         title = metadata['attributes']['name']
         trackNo = metadata['attributes']['trackNumber']
@@ -101,10 +101,10 @@ class Lyrics:
             os.makedirs('/'.join(lyric_path.split('/')[:-1]))
 
         if SYNCED:
-            with open(lyric_path+'.lrc', "w+") as f:
+            with open(lyric_path+'.lrc', "w+",encoding='utf-8') as f:
                 f.write(synced_lyric)
         if PLAIN:
-            with open(lyric_path+'.txt', 'w+') as f:
+            with open(lyric_path+'.txt', 'w+', encoding='utf-8') as f:
                 f.write(plain_lyric)
 
 if __name__ == "__main__":
