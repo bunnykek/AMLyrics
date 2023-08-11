@@ -1,3 +1,6 @@
+```diff
+- This project has been deprecated. Use https://github.com/bunnykek/F-Lyrics instead.
+```
 # AMLyrics
 Fetches plain and synced lyrics from Apple Music
 
